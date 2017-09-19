@@ -1,0 +1,16 @@
+$primary: #1d0bff;
+
+body {
+  color: $primary;
+  height: 700px;
+}
+
+.test {
+background: url('./img/bg.jpg');
+  height: 100%;
+}
+
+.some-class {
+  color: #000;
+  background: darkblue;
+}

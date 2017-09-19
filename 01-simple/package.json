@@ -1,0 +1,17 @@
+{
+  "name": "02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  },
+  "scripts": {
+    "build": "webpack src/main.js dist/bundle.js",
+    "watch": "webpack src/main.js dist/bundle.js --watch",
+    "watch2": "npm run build -- --watch"
+  },
+  "author": "",
+  "license": "ISC"
+}
