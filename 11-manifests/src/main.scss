@@ -1,0 +1,14 @@
+@import "test.css";
+@import 'main.css';
+
+$primary: #1d0bff;
+
+body {
+  color: $primary;
+  height: 700px;
+}
+
+.some-class {
+  color: #000;
+  background: darkblue;
+}

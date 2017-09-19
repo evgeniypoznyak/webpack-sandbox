@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PurifyCSSPlugin = require('purifycss-webpack');
@@ -6,10 +7,11 @@ const glob = require('glob');
 //const prod = process.argv.indexOf('-p') !== -1;
 const inProd = (process.env.npm_lifecycle_script.includes(' -p'));
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const dist = 'dist';
 
 // the path(s) that should be cleaned
 const pathsToClean = [
-    'dist',
+    dist,
     // 'build'
 ];
 
@@ -38,8 +40,9 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: "[name].[chunkhash].js",
+        path: path.resolve(__dirname, dist),
+        // filename: "[name].[chunkhash].js",
+        filename: "[name].js",
     },
 
     module: {
@@ -83,12 +86,26 @@ module.exports = {
 
     },
     plugins: [
-        new ExtractTextPlugin("[name].[chunkhash].css"),
+        // new ExtractTextPlugin("[name].[chunkhash].css"),
+        new ExtractTextPlugin("[name].css"),
         new PurifyCSSPlugin({
             paths: glob.sync(path.join(__dirname, 'index.html')),
             minimize: inProd,
         }),
         new CleanWebpackPlugin(pathsToClean, cleanOptions),
+
+
+        // todo Найти способ распарсить JSON в HTML
+        function () {
+            this.plugin('done', stats => {
+                fs.writeFileSync(
+                    path.join(__dirname, dist + '/stats.json'),
+                    JSON.stringify(stats.toJson().assetsByChunkName)
+                );
+            });
+        }
     ]
 
 };
+
+
