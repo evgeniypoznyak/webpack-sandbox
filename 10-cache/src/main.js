@@ -1,2 +1,4 @@
 import './main.scss';
-console.log('empty');
+//import 'jquery';
+
+console.log('empty1');
