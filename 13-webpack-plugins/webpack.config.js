@@ -1,5 +1,4 @@
 const path = require('path');
-//const fs = require('fs');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PurifyCSSPlugin = require('purifycss-webpack');
@@ -7,6 +6,8 @@ const glob = require('glob');
 const inProd = (process.env.npm_lifecycle_script.includes(' -p'));
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const dist = 'dist';
+// Custom plugin
+const BuildManifestPlugin = require('./build/plugins/BuildManifestPlugin');
 
 const pathsToClean = [
     dist,
@@ -94,17 +95,7 @@ module.exports = {
             minimize: inProd,
         }),
         new CleanWebpackPlugin(pathsToClean, cleanOptions),
-
-
-        // todo Найти способ распарсить JSON в HTML
-        // function () {
-        //     this.plugin('done', stats => {
-        //         fs.writeFileSync(
-        //             path.join(__dirname, dist + '/stats.json'),
-        //             JSON.stringify(stats.toJson().assetsByChunkName)
-        //         );
-        //     });
-        // }
+        new BuildManifestPlugin('stats'),
     ]
 
 };
