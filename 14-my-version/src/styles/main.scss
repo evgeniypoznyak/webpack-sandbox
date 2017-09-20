@@ -1,22 +1,23 @@
 @import 'main.css';
 
-$primary: #1d0bff;
+$primary: #ffffff;;
 
 #test {
   background: url('../img/bg.jpg');
-  height: 100%;
+  text-align: center;
+  font-size: 160px;
 }
 
 @font-face {
-  font-family: myFirstFont;
+  font-family: customFont;
   src: url(fonts/lora/Lora-Regular.ttf);
 }
 
 body {
   color: $primary;
   height: 700px;
-  font-family: myFirstFont;
+  font-family: customFont;
 }
 h1 {
-  color: red;
+  color: #9c0000;;
 }
