@@ -3,9 +3,14 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PurifyCSSPlugin = require('purifycss-webpack');
 const glob = require('glob');
-const inProd = (process.env.npm_lifecycle_script.includes(' -p'));
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const inProd = (process.env.npm_lifecycle_script.includes(' -p'));
 const dist = 'dist';
+
+
+
 // Custom plugin
 const BuildManifestPlugin = require('./build/plugins/BuildManifestPlugin');
 
@@ -25,17 +30,18 @@ module.exports = {
     entry: {
         app: [
             './src/main.js',
-            './src/main.scss',
+            './src/styles/main.scss',
         ],
-        vendor: [
-            'jquery'
-        ]
+        // vendor: [
+        //     'jquery'
+        // ]
 
     },
 
     output: {
         path: path.resolve(__dirname, dist),
-        filename: "[name].js",
+        filename: "[name].[chunkhash].js",
+       // filename: "[name].js",
     },
 
     module: {
@@ -85,14 +91,34 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]'
+                        }
+                    }
+                ],
+                exclude: path.resolve(__dirname, 'src/start.html')
             }
         ]
 
     },
     plugins: [
-        new ExtractTextPlugin("[name].css"),
+        new ExtractTextPlugin("[name].[chunkhash].css"),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'src/start.html'
+        }),
         new PurifyCSSPlugin({
-            paths: glob.sync(path.join(__dirname, 'index.html')),
+            paths: glob.sync(path.join(__dirname, './src/start.html')),
             minimize: inProd,
         }),
         new CleanWebpackPlugin(pathsToClean, cleanOptions),

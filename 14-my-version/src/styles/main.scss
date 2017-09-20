@@ -1,0 +1,22 @@
+@import 'main.css';
+
+$primary: #1d0bff;
+
+#test {
+  background: url('../img/bg.jpg');
+  height: 100%;
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(fonts/lora/Lora-Regular.ttf);
+}
+
+body {
+  color: $primary;
+  height: 700px;
+  font-family: myFirstFont;
+}
+h1 {
+  color: red;
+}
